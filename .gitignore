@@ -1,0 +1,13 @@
+.classpath
+.project
+bin/
+target/
+test-output/
+.settings/
+environment.properties
+*~
+*.orig
+.merge_file*
+conf/env/*/*
+fixTomcat.sh
+*.tmp
