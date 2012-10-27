@@ -7,11 +7,6 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-/**
- * @author JOKe
- * @param <E>
- * @param <PK>
- */
 public abstract class GenericDaoImpl<E, PK extends Serializable> extends
 		HibernateDaoSupport implements GenericDao<E, PK> {
 	@SuppressWarnings("unchecked")

@@ -3,11 +3,6 @@ package com.elefante.dao;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * @author Naiden Gochev
- * @param <E>
- * @param <PK>
- */
 public interface GenericDao<E, PK extends Serializable> {
 	PK save(E newInstance);
 
