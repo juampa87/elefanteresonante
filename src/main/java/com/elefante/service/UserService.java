@@ -2,19 +2,20 @@ package com.elefante.service;
 
 import java.util.List;
 
-import com.elefante.domain.Person;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.elefante.domain.User;
 
 public interface UserService {
 
-	List<User> getAll();
-
 	User getUser(Integer id);
 
-	void add(Person person);
+	void add(User user, MultipartFile photo);
 
 	void delete(Integer id);
 
-	void edit(Person person);
+	void edit(User user);
+
+	List<User> getAll();
 
 }
