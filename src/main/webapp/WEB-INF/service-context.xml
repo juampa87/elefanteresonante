@@ -7,6 +7,12 @@
 
 	<bean class="com.elefante.service.UserServiceImpl" id="userService">
 		<property name="userDao" ref="userDao" />
+		<property name="filesService" ref="filesService" />
+		
 	</bean>
+	
+	<bean class="com.elefante.service.FilesServiceImpl" id="filesService">
+		<property name="filesPath" value="${filePath}" />
+	</bean>	
 	
 </beans>
