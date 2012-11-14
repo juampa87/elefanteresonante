@@ -68,6 +68,16 @@ public class UserController {
 
 	}
 
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public ModelAndView deleteUser(
+			@RequestParam(value = "oid", required = true) Integer oid) {
+		ModelAndView mav = new ModelAndView(REDIRECT_TO_USER_LIST_AFTER_POST);
+		logger.debug("Received request to delete user with id " + oid);
+		userService.delete(oid);
+		return mav;
+
+	}
+
 	@Required
 	public void setUserService(UserService userService) {
 		this.userService = userService;

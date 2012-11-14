@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.elefante.dao.UserDAOImpl;
+import com.elefante.dao.GenericDao;
 import com.elefante.domain.User;
 
 @Transactional(rollbackFor = Exception.class)
@@ -16,10 +16,9 @@ public class UserServiceImpl implements UserService {
 
 	protected static Logger logger = Logger.getLogger("service");
 
-	private UserDAOImpl userDao;
+	private GenericDao<User, Integer> userDao;
 	private FilesService filesService;
 
-	@SuppressWarnings("unchecked")
 	public List<User> getAll() {
 		logger.debug("Retrieving all users");
 		List<User> users = null;
@@ -31,13 +30,11 @@ public class UserServiceImpl implements UserService {
 		return users;
 	}
 
-	@SuppressWarnings("unchecked")
 	public User getUser(Integer id) {
 		logger.debug("Finding user by id " + id);
 		return (User) this.userDao.findById(id);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void add(User user, MultipartFile photo) {
 		logger.debug("Adding new user");
 
@@ -55,8 +52,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public void delete(Integer id) {
-		logger.debug("Deleting existing person");
-
+		logger.debug("Deleting existing User");
+		User user = this.getUser(id);
+		try {
+			this.userDao.delete(user);
+			this.filesService.deletePhoto(user.getPhoto());
+		} catch (IOException e) {
+			logger.error("Error deleting logo ", e);
+		}
 	}
 
 	public void edit(User user) {
@@ -65,7 +68,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Required
-	public void setUserDao(UserDAOImpl userDao) {
+	public void setUserDao(GenericDao<User, Integer> userDao) {
 		this.userDao = userDao;
 	}
 

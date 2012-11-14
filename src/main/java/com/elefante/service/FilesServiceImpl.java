@@ -32,10 +32,11 @@ public class FilesServiceImpl implements FilesService {
 		File file = new File(fullPath);
 		boolean success = file.delete();
 		if (!success) {
-			logger.error("Error deleting photo: ");
-			throw new IOException();
+			logger.error("Photo was not deleted");
+
 		}
 		return success;
+
 	}
 
 	public Boolean checkIfExists(String photoName) {

@@ -14,7 +14,6 @@ public abstract class GenericDaoImpl<E, PK extends Serializable> extends
 		return (PK) getHibernateTemplate().save(newInstance);
 	}
 
-	@SuppressWarnings("unchecked")
 	public E findById(PK id) {
 		return (E) getHibernateTemplate().get(getEntityClass(), id);
 	}
@@ -31,11 +30,13 @@ public abstract class GenericDaoImpl<E, PK extends Serializable> extends
 		return getHibernateTemplate().findByCriteria(criteria);
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<E> findByExample(E object) {
 		List<E> resultList = getHibernateTemplate().findByExample(object, 0, 1);
 		return resultList;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<E> findByExample(E object, int firstResult, int maxResults) {
 		List<E> resultList = getHibernateTemplate().findByExample(object,
 				firstResult, maxResults);
