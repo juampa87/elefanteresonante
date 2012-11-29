@@ -23,6 +23,8 @@ import com.elefante.domain.Project;
 import com.elefante.domain.User;
 import com.elefante.editors.ClientCustomEditor;
 import com.elefante.editors.UserCustomEditor;
+import com.elefante.enums.Order;
+import com.elefante.enums.OrderFields;
 import com.elefante.enums.ServiceType;
 import com.elefante.enums.StateType;
 import com.elefante.search.SearchParams;
@@ -111,7 +113,9 @@ public class ProjectController {
 			@RequestParam(value = "state", required = false) String state,
 			@RequestParam(value = "responsable", required = false) String responsable,
 			@RequestParam(value = "client", required = false) String client,
-			@RequestParam(value = "service", required = false) String service) {
+			@RequestParam(value = "service", required = false) String service,
+			@RequestParam(value = "order", required = false) String order,
+			@RequestParam(value = "orderField", required = false) String orderField) {
 		ModelAndView mav = new ModelAndView("projectspage");
 		logger.debug("Searching projects");
 		SearchParams searchParams = new SearchParams();
@@ -120,6 +124,12 @@ public class ProjectController {
 		searchParams.setClient(client);
 		searchParams.setResponsable(responsable);
 		searchParams.setService(service);
+		searchParams.setOrder(StringUtils.isNotEmpty(order) ? Order
+				.valueOf(order) : null);
+		searchParams
+				.setOrderField(StringUtils.isNotEmpty(orderField) ? OrderFields
+						.valueOf(orderField) : null);
+
 		List<Project> projects = projectService.search(searchParams);
 		mav.addObject("projects", projects);
 		return mav;

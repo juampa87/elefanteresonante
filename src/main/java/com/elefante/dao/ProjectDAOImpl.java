@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.elefante.domain.Project;
@@ -44,6 +45,18 @@ public class ProjectDAOImpl extends GenericDaoImpl<Project, Integer> {
 			criteria.add(Restrictions.eq("service", searchParams.getService()));
 		}
 
+		if (searchParams.getOrderField() != null) {
+			if (searchParams.getOrder() != null
+					&& "DESC".equals(searchParams.getOrder().toString())) {
+				criteria.addOrder(Order.desc(searchParams.getOrderField()
+						.field()));
+			} else {
+				criteria.addOrder(Order.asc(searchParams.getOrderField()
+						.field()));
+			}
+		}
+
 		return criteria.list();
 	}
+
 }
