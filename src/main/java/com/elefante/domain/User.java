@@ -19,7 +19,7 @@ public class User implements Serializable {
 	@GeneratedValue
 	private Integer id;
 
-	@Column(name = "username")
+	@Column(name = "username", length = 50, nullable = false)
 	private String username;
 
 	@Column(name = "photo")

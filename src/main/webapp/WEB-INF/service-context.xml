@@ -8,11 +8,21 @@
 	<bean class="com.elefante.service.UserServiceImpl" id="userService">
 		<property name="userDao" ref="userDao" />
 		<property name="filesService" ref="filesService" />
-		
+		<property name="userValidator" ref="userValidator" />
 	</bean>
 	
 	<bean class="com.elefante.service.FilesServiceImpl" id="filesService">
 		<property name="filesPath" value="${filePath}" />
 	</bean>	
+	
+	<bean class="com.elefante.service.ClientServiceImpl" id="clientService">
+		<property name="clientDao" ref="clientDao" />
+		
+	</bean>
+	
+	<bean class="com.elefante.service.ProjectServiceImpl" id="projectService">
+		<property name="projectDao" ref="projectDao" />
+		
+	</bean>
 	
 </beans>

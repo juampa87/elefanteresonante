@@ -1,5 +1,6 @@
 package com.elefante.enums;
 
 public enum StateType {
-	MUSIC, POST_PRO, STUDIO_HS
+
+	EN_PROCESO, FACTURAR, FACTURADO, COBRADO
 }

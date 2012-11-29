@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.elefante.dao.GenericDao;
 import com.elefante.domain.User;
+import com.elefante.exception.ValidationException;
+import com.elefante.validator.UserValidator;
 
 @Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl implements UserService {
@@ -18,6 +20,7 @@ public class UserServiceImpl implements UserService {
 
 	private GenericDao<User, Integer> userDao;
 	private FilesService filesService;
+	private UserValidator userValidator;
 
 	public List<User> getAll() {
 		logger.debug("Retrieving all users");
@@ -35,10 +38,11 @@ public class UserServiceImpl implements UserService {
 		return (User) this.userDao.findById(id);
 	}
 
-	public void add(User user, MultipartFile photo) {
+	public void add(User user, MultipartFile photo) throws ValidationException {
 		logger.debug("Adding new user");
 
 		try {
+			this.userValidator.validate(user);
 			String originalName = photo.getOriginalFilename();
 			String fileExtension = originalName.substring(
 					originalName.length() - 4, originalName.length());
@@ -75,6 +79,11 @@ public class UserServiceImpl implements UserService {
 	@Required
 	public void setFilesService(FilesService filesService) {
 		this.filesService = filesService;
+	}
+
+	@Required
+	public void setUserValidator(UserValidator userValidator) {
+		this.userValidator = userValidator;
 	}
 
 }

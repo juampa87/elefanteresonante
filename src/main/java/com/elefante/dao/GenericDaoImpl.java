@@ -7,6 +7,8 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import com.elefante.search.SearchParams;
+
 public abstract class GenericDaoImpl<E, PK extends Serializable> extends
 		HibernateDaoSupport implements GenericDao<E, PK> {
 	@SuppressWarnings("unchecked")
@@ -60,4 +62,9 @@ public abstract class GenericDaoImpl<E, PK extends Serializable> extends
 	protected DetachedCriteria createDetachedCriteria() {
 		return DetachedCriteria.forClass(getEntityClass());
 	}
+
+	public List<E> findWithParams(SearchParams searchParams) {
+		return this.findAll();
+	}
+
 }

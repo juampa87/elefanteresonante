@@ -13,6 +13,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.elefante.domain.User;
+import com.elefante.exception.ValidationException;
 import com.elefante.service.UserService;
 
 @Controller
@@ -63,7 +64,11 @@ public class UserController {
 		logger.debug("Received request to add user");
 		User user = new User();
 		user.setUsername(username);
-		userService.add(user, photo);
+		try {
+			userService.add(user, photo);
+		} catch (ValidationException e) {
+			mav.addObject("errors", e.getErrors());
+		}
 		return mav;
 
 	}

@@ -9,4 +9,14 @@
 		<property name="userService" ref="userService" />
 	</bean>
 	
+	<bean class="com.elefante.controller.ClientController" id="clientController">
+		<property name="clientService" ref="clientService" />
+	</bean>
+	
+	<bean class="com.elefante.controller.ProjectController" id="projectController">
+		<property name="projectService" ref="projectService" />
+		<property name="userService" ref="userService" />
+		<property name="clientService" ref="clientService" />
+	</bean>
+	
 </beans>

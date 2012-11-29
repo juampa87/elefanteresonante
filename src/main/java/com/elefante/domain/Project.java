@@ -2,14 +2,21 @@ package com.elefante.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
 
 import com.elefante.enums.ServiceType;
 import com.elefante.enums.StateType;
@@ -45,17 +52,31 @@ public class Project implements Serializable {
 	@Column(name = "product", length = 100, nullable = false)
 	private String product;
 
-	@Column(name = "service", nullable = false)
-	private ServiceType studio;
+	@Column(name = "service", length = 20, nullable = false)
+	@Enumerated(EnumType.STRING)
+	private ServiceType service;
 
 	@Column(name = "total")
 	private Integer total;
 
 	@Column(name = "state", length = 20, nullable = false)
+	@Enumerated(EnumType.STRING)
 	private StateType state;
 
 	@Column(name = "description", length = 1000)
 	private String description;
+
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "project_OID")
+	@Cascade({ org.hibernate.annotations.CascadeType.ALL,
+			org.hibernate.annotations.CascadeType.DELETE_ORPHAN })
+	private List<Item> charges;
+
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "project_OID")
+	@Cascade({ org.hibernate.annotations.CascadeType.ALL,
+			org.hibernate.annotations.CascadeType.DELETE_ORPHAN })
+	private List<Item> costs;
 
 	public Integer getId() {
 		return id;
@@ -85,8 +106,8 @@ public class Project implements Serializable {
 		return product;
 	}
 
-	public ServiceType getStudio() {
-		return studio;
+	public ServiceType getService() {
+		return service;
 	}
 
 	public Integer getTotal() {
@@ -125,8 +146,8 @@ public class Project implements Serializable {
 		this.product = product;
 	}
 
-	public void setStudio(ServiceType studio) {
-		this.studio = studio;
+	public void setService(ServiceType service) {
+		this.service = service;
 	}
 
 	public void setTotal(Integer total) {
@@ -143,6 +164,22 @@ public class Project implements Serializable {
 
 	public String getDescription() {
 		return description;
+	}
+
+	public List<Item> getCharges() {
+		return charges;
+	}
+
+	public List<Item> getCosts() {
+		return costs;
+	}
+
+	public void setCharges(List<Item> charges) {
+		this.charges = charges;
+	}
+
+	public void setCosts(List<Item> costs) {
+		this.costs = costs;
 	}
 
 }

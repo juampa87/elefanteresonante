@@ -4,17 +4,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
- 	<bean id="genericDAO" class="com.elefante.dao.GenericDAOImpl" abstract="true">
-	   <property name="sessionFactory" ref="sessionFactory" />
-	</bean>
- 
-	<bean class="com.elefante.dao.UserDAOImpl" id="userDao" parent="genericDAO">
-	</bean>
-	
-	<bean class="com.elefante.dao.ClientDAOImpl" id="clientDao" parent="genericDAO">
-	</bean>
-	
-	<bean class="com.elefante.dao.ProjectDAOImpl" id="projectDao" parent="genericDAO">
+
+	<bean class="com.elefante.validator.UserValidator" id="userValidator">
+		
 	</bean>
 	
 </beans>
