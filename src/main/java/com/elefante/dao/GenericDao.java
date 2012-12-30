@@ -1,6 +1,7 @@
 package com.elefante.dao;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import com.elefante.search.SearchParams;
@@ -21,4 +22,8 @@ public interface GenericDao<E, PK extends Serializable> {
 	List<E> findAllByProperty(String propertyName, Object value);
 
 	List<E> findWithParams(SearchParams searchParams);
+
+	Boolean canBeDeleted(Integer id);
+
+	String getRefNumber(Date today);
 }

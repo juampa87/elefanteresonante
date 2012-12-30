@@ -11,7 +11,6 @@ import com.elefante.dao.GenericDao;
 import com.elefante.domain.Item;
 import com.elefante.domain.Project;
 import com.elefante.search.SearchParams;
-import com.google.common.collect.Lists;
 
 @Transactional(rollbackFor = Exception.class)
 public class ProjectServiceImpl implements ProjectService {
@@ -39,22 +38,24 @@ public class ProjectServiceImpl implements ProjectService {
 	public void add(Project project) {
 		logger.debug("Adding new project");
 		project.setCreationDate(new Date());
-		// mockeado.. sacar
-		Item item1 = new Item();
-		item1.setDescription("un cargo1");
-		item1.setAmmount(1);
-		Item item2 = new Item();
-		item2.setDescription("un cargo2");
-		item2.setAmmount(2);
-		Item item3 = new Item();
-		item3.setDescription("un costo3");
-		item3.setAmmount(3);
-		List<Item> cargos = Lists.newArrayList(item1, item2);
-		List<Item> costos = Lists.newArrayList(item3);
-		project.setCosts(costos);
-		project.setCharges(cargos);
-
-		// hasta aca
+		project.setReferenceNumber(this.projectDao.getRefNumber(new Date()));
+		// // mockeado.. sacar
+		// Item item1 = new Item();
+		// item1.setDescription("un cargo1");
+		// item1.setAmmount(1);
+		// Item item2 = new Item();
+		// item2.setDescription("un cargo2");
+		// item2.setAmmount(2);
+		// Item item3 = new Item();
+		// item3.setDescription("un costo3");
+		// item3.setAmmount(3);
+		// List<Item> cargos = Lists.newArrayList(item1, item2);
+		// List<Item> costos = Lists.newArrayList(item3);
+		// project.setCosts(costos);
+		// project.setCharges(cargos);
+		//
+		// // hasta aca
+		project.setTotal(this.calculateTotal(project));
 		this.projectDao.save(project);
 	}
 
@@ -73,6 +74,23 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<Project> search(SearchParams searchParams) {
 		logger.debug("Searching with params" + searchParams);
 		return this.projectDao.findWithParams(searchParams);
+	}
+
+	private Integer calculateTotal(Project project) {
+		Integer chargesCounter = 0;
+		Integer costsCounter = 0;
+		if (project.getCharges() != null) {
+			for (Item item : project.getCharges()) {
+				chargesCounter += item.getAmmount();
+			}
+		}
+		if (project.getCosts() != null) {
+			for (Item item : project.getCosts()) {
+				costsCounter += item.getAmmount();
+			}
+		}
+		return chargesCounter - costsCounter;
+
 	}
 
 	@Required

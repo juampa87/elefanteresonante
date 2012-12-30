@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.elefante.domain.Client;
+import com.elefante.exception.BeingUsedException;
 import com.elefante.service.ClientService;
 
 @Controller
@@ -25,13 +26,15 @@ public class ClientController {
 	private ClientService clientService;
 
 	@RequestMapping(value = "/clients", method = RequestMethod.GET)
-	public ModelAndView getUsers() {
+	public ModelAndView getClients(
+			@RequestParam(value = "error", required = false) String error) {
 
 		ModelAndView mav = new ModelAndView("clientspage");
 		logger.debug("Received request to show all clients");
 
 		List<Client> clients = clientService.getAll();
 
+		mav.addObject("error", error);
 		mav.addObject("clients", clients);
 
 		return mav;
@@ -69,9 +72,32 @@ public class ClientController {
 			@RequestParam(value = "oid", required = true) Integer oid) {
 		ModelAndView mav = new ModelAndView(REDIRECT_TO_CLIENT_LIST_AFTER_POST);
 		logger.debug("Received request to delete client with id " + oid);
-		clientService.delete(oid);
+		try {
+			clientService.delete(oid);
+		} catch (BeingUsedException e) {
+			logger.debug("Exception thrown, maybe it's because client is being used");
+			mav.addObject("error", "beingUsed");
+		}
 		return mav;
 
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView editClient(
+			@RequestParam(value = "oid", required = true) Integer oid) {
+		ModelAndView mav = new ModelAndView("addclient");
+		Client client = this.clientService.getClient(oid);
+		mav.addObject("client", client);
+		return mav;
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	public ModelAndView editClient(@ModelAttribute("client") Client client) {
+		logger.debug("Received request to edit client with id "
+				+ client.getId());
+		ModelAndView mav = new ModelAndView(REDIRECT_TO_CLIENT_LIST_AFTER_POST);
+		clientService.edit(client);
+		return mav;
 	}
 
 	@Required

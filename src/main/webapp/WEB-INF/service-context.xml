@@ -17,7 +17,6 @@
 	
 	<bean class="com.elefante.service.ClientServiceImpl" id="clientService">
 		<property name="clientDao" ref="clientDao" />
-		
 	</bean>
 	
 	<bean class="com.elefante.service.ProjectServiceImpl" id="projectService">

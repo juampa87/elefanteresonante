@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.elefante.domain.Client;
+import com.elefante.domain.Item;
 import com.elefante.domain.Project;
 import com.elefante.domain.User;
 import com.elefante.editors.ClientCustomEditor;
+import com.elefante.editors.ItemCustomEditor;
 import com.elefante.editors.UserCustomEditor;
 import com.elefante.enums.Order;
 import com.elefante.enums.OrderFields;
@@ -51,20 +53,21 @@ public class ProjectController {
 				this.clientService));
 		binder.registerCustomEditor(User.class, new UserCustomEditor(
 				this.userService));
+		binder.registerCustomEditor(Item.class, new ItemCustomEditor());
 	}
 
-	@RequestMapping(value = "/projects", method = RequestMethod.GET)
-	public ModelAndView getProjects() {
-
-		ModelAndView mav = new ModelAndView("projectspage");
-		logger.debug("Received request to show all projects");
-
-		List<Project> projects = projectService.getAll();
-
-		mav.addObject("projects", projects);
-
-		return mav;
-	}
+	// @RequestMapping(value = "/projects", method = RequestMethod.GET)
+	// public ModelAndView getProjects() {
+	//
+	// ModelAndView mav = new ModelAndView("projectspage");
+	// logger.debug("Received request to show all projects");
+	//
+	// List<Project> projects = projectService.getAll();
+	//
+	// mav.addObject("projects", projects);
+	//
+	// return mav;
+	// }
 
 	@RequestMapping(value = "/project/{oid}", method = RequestMethod.GET)
 	public ModelAndView getProject(@PathVariable Integer oid) {
@@ -107,8 +110,7 @@ public class ProjectController {
 
 	}
 
-	// cambiar a post
-	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	@RequestMapping(value = "/projects")
 	public ModelAndView search(
 			@RequestParam(value = "state", required = false) String state,
 			@RequestParam(value = "responsable", required = false) String responsable,
@@ -132,6 +134,10 @@ public class ProjectController {
 
 		List<Project> projects = projectService.search(searchParams);
 		mav.addObject("projects", projects);
+		mav.addObject("users", this.userService.getAll());
+		mav.addObject("clients", this.clientService.getAll());
+		mav.addObject("services", ServiceType.values());
+		mav.addObject("states", StateType.values());
 		return mav;
 
 	}

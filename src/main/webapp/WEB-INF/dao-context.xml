@@ -15,6 +15,7 @@
 	</bean>
 	
 	<bean class="com.elefante.dao.ProjectDAOImpl" id="projectDao" parent="genericDAO">
+		<property name="simpleJdbcTemplate" ref="simpleJdbcTemplate" />
 	</bean>
 	
 </beans>

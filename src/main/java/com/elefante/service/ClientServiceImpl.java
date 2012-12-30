@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.elefante.dao.GenericDao;
 import com.elefante.domain.Client;
-import com.elefante.domain.User;
+import com.elefante.exception.BeingUsedException;
 
 @Transactional(rollbackFor = Exception.class)
 public class ClientServiceImpl implements ClientService {
@@ -18,7 +18,7 @@ public class ClientServiceImpl implements ClientService {
 	private GenericDao<Client, Integer> clientDao;
 
 	public List<Client> getAll() {
-		logger.debug("Retrieving all users");
+		logger.debug("Retrieving all clients");
 		List<Client> clients = null;
 		try {
 			clients = this.clientDao.findAll();
@@ -29,7 +29,7 @@ public class ClientServiceImpl implements ClientService {
 	}
 
 	public Client getClient(Integer id) {
-		logger.debug("Finding user by id " + id);
+		logger.debug("Finding client by id " + id);
 		return (Client) this.clientDao.findById(id);
 	}
 
@@ -38,21 +38,20 @@ public class ClientServiceImpl implements ClientService {
 		this.clientDao.save(client);
 	}
 
-	public void delete(Integer id) {
+	public void delete(Integer id) throws BeingUsedException {
 		logger.debug("Deleting existing client");
 		Client client = this.getClient(id);
-		this.clientDao.delete(client);
-
-	}
-
-	public void edit(User user) {
-		logger.debug("Editing existing person");
-
+		if (this.clientDao.canBeDeleted(id)) {
+			this.clientDao.delete(client);
+		} else {
+			logger.debug("cannot delete client because it is being used");
+			throw new BeingUsedException();
+		}
 	}
 
 	public void edit(Client client) {
-		// TODO Auto-generated method stub
-
+		logger.debug("Editing client: " + client.getId());
+		this.clientDao.update(client);
 	}
 
 	@Required

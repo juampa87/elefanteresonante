@@ -17,6 +17,10 @@
     
     <!-- Enable annotation style of managing transactions -->
 	<tx:annotation-driven transaction-manager="transactionManager" />	
+	
+	<bean id="simpleJdbcTemplate" class="org.springframework.jdbc.core.simple.SimpleJdbcTemplate">
+		<constructor-arg name="dataSource" ref="dataSource" />
+	</bean>
    
     <!-- Declare the Hibernate SessionFactory for retrieving Hibernate sessions -->
     <!-- See http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/orm/hibernate3/annotation/AnnotationSessionFactoryBean.html --> 							

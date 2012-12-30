@@ -20,12 +20,6 @@ public class ProjectValidator implements Validator<Project> {
 					"La descripcion debe tener menos de 1000 caracteres"));
 		}
 
-		if (object.getName() == null || StringUtils.isEmpty((object.getName()))
-				|| object.getName().length() >= 100) {
-			errors.add(new ValidationError(
-					"El nombre no puede estar vacio y debe contener menos de 100 caracteres"));
-		}
-
 		if (object.getProduct() == null
 				|| StringUtils.isEmpty((object.getProduct()))
 				|| object.getProduct().length() >= 100) {

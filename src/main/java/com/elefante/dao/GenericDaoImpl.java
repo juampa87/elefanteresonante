@@ -1,6 +1,7 @@
 package com.elefante.dao;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
@@ -65,6 +66,15 @@ public abstract class GenericDaoImpl<E, PK extends Serializable> extends
 
 	public List<E> findWithParams(SearchParams searchParams) {
 		return this.findAll();
+	}
+
+	public Boolean canBeDeleted(Integer id) {
+		return true;
+	}
+
+	public String getRefNumber(Date today) {
+
+		return null;
 	}
 
 }
