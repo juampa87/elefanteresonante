@@ -55,7 +55,7 @@
 						<select name="state" tabindex="4">
 							<option value="">Todos</option>
 							<#list states as state>
-								<option value="${state}">${state}</option>
+								<option value="${state}" <#if stateParam?? && state.toString() == stateParam>selected="selected"</#if>>${state}</option>
 							</#list>
 						</select>
 					</span>
@@ -63,7 +63,7 @@
 					<select name="responsable" tabindex="4">
 						<option value="">Todos</option>
 						<#list users as user>
-							<option value="${user.id}">${user.username}</option>
+							<option value="${user.id}" <#if responsableParam?? && user.id == responsableParam>selected="selected"</#if> >${user.username}</option>
 						</#list>
 					</select>
 					</span>
@@ -71,7 +71,7 @@
 						<select name="client" tabindex="4">
 							<option value="">Todos</option>
 							<#list clients as client>
-								<option value="${client.id}">${client.name}</option>
+								<option value="${client.id}" <#if clientParam?? && client.id == clientParam>selected="selected"</#if>>${client.name}</option>
 							</#list>
 						</select>
 					</span>
@@ -79,7 +79,7 @@
 					<select name="service" tabindex="4">
 						<option value="">Todos</option>
 						<#list services as service>
-							<option value="${service}">${service}</option>
+							<option value="${service}" <#if serviceParam?? && service == serviceParam>selected="selected"</#if> >${service}</option>
 						</#list>
 					</select>
 					</span>

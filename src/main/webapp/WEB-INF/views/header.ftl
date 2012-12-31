@@ -24,7 +24,7 @@
 				</div>
 				<div id="menu">
 					<ul>
-						<li <#if selected=="projects">class="current_page_item"</#if>><a href="/elefante/app/project/projects">Proyectos </a></li>
+						<li <#if selected=="projects">class="current_page_item"</#if>><a href="/elefante/app/project/projects?state=EN_PROCESO&responsable=&client=&service=&orderField=DATE&order=ASC">Proyectos </a></li>
 						<li <#if selected=="users">class="current_page_item"</#if>><a href="/elefante/app/user/users">Usuarios </a></li>
 						<li <#if selected=="clients">class="current_page_item"</#if>><a href="/elefante/app/client/clients">Clientes </a></li>
 					</ul>

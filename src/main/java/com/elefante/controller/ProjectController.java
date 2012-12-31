@@ -4,6 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
@@ -34,6 +38,7 @@ import com.elefante.search.SearchParams;
 import com.elefante.service.ClientService;
 import com.elefante.service.ProjectService;
 import com.elefante.service.UserService;
+import com.google.gson.Gson;
 
 @Controller
 @RequestMapping("/project")
@@ -141,6 +146,7 @@ public class ProjectController {
 		logger.debug("Received request to edit project with id "
 				+ project.getId());
 		ModelAndView mav = new ModelAndView(REDIRECT_TO_PROJECT_LIST_AFTER_POST);
+		mav.addObject("useCookie", true);
 		try {
 			this.projectService.edit(project);
 		} catch (ValidationException e) {
@@ -159,25 +165,35 @@ public class ProjectController {
 
 	@RequestMapping(value = "/projects")
 	public ModelAndView search(
+			HttpServletRequest request,
+			HttpServletResponse response,
 			@RequestParam(value = "state", required = false) String state,
 			@RequestParam(value = "responsable", required = false) String responsable,
 			@RequestParam(value = "client", required = false) String client,
 			@RequestParam(value = "service", required = false) String service,
 			@RequestParam(value = "order", required = false) String order,
-			@RequestParam(value = "orderField", required = false) String orderField) {
+			@RequestParam(value = "orderField", required = false) String orderField,
+			@RequestParam(value = "useCookie", required = false) Boolean useCookie) {
 		ModelAndView mav = new ModelAndView("projectspage");
 		logger.debug("Searching projects");
 		SearchParams searchParams = new SearchParams();
-		searchParams.setState(StringUtils.isNotEmpty(state) ? StateType
-				.valueOf(state) : null);
-		searchParams.setClient(client);
-		searchParams.setResponsable(responsable);
-		searchParams.setService(service);
-		searchParams.setOrder(StringUtils.isNotEmpty(order) ? Order
-				.valueOf(order) : null);
-		searchParams
-				.setOrderField(StringUtils.isNotEmpty(orderField) ? OrderFields
-						.valueOf(orderField) : null);
+		SearchParams searchParamsFromCookie = this.getCookie(request);
+		if (useCookie != null && useCookie && searchParamsFromCookie != null) {
+			searchParams = searchParamsFromCookie;
+
+		} else {
+			searchParams.setState(StringUtils.isNotEmpty(state) ? StateType
+					.valueOf(state) : null);
+			searchParams.setClient(client);
+			searchParams.setResponsable(responsable);
+			searchParams.setService(service);
+			searchParams.setOrder(StringUtils.isNotEmpty(order) ? Order
+					.valueOf(order) : null);
+			searchParams
+					.setOrderField(StringUtils.isNotEmpty(orderField) ? OrderFields
+							.valueOf(orderField) : null);
+			this.setCookie(response, searchParams);
+		}
 
 		List<Project> projects = projectService.search(searchParams);
 		mav.addObject("projects", projects);
@@ -185,7 +201,76 @@ public class ProjectController {
 		mav.addObject("clients", this.clientService.getAll());
 		mav.addObject("services", ServiceType.values());
 		mav.addObject("states", StateType.values());
+		if (useCookie != null && useCookie) {
+			mav.addObject(
+					"stateParam",
+					searchParamsFromCookie.getState() != null ? searchParamsFromCookie
+							.getState().toString() : StringUtils.EMPTY);
+			mav.addObject(
+					"responsableParam",
+					StringUtils.isNotEmpty(searchParamsFromCookie
+							.getResponsable()) ? Integer
+							.parseInt(searchParamsFromCookie.getResponsable())
+							: null);
+			mav.addObject(
+					"clientParam",
+					StringUtils.isNotEmpty(searchParamsFromCookie.getClient()) ? Integer
+							.parseInt(searchParamsFromCookie.getClient())
+							: null);
+			mav.addObject(
+					"serviceParam",
+					searchParamsFromCookie.getService() != null ? searchParamsFromCookie
+							.getService().toString() : StringUtils.EMPTY);
+			mav.addObject(
+					"orderParam",
+					searchParamsFromCookie.getOrder() != null ? searchParamsFromCookie
+							.getOrder().toString() : StringUtils.EMPTY);
+			mav.addObject("orderFieldParam", searchParamsFromCookie
+					.getOrderField() != null ? searchParamsFromCookie
+					.getOrderField().toString() : StringUtils.EMPTY);
+		} else {
+			mav.addObject("stateParam", state);
+			mav.addObject("responsableParam", StringUtils
+					.isNotEmpty(responsable) ? Integer.parseInt(responsable)
+					: null);
+			mav.addObject("clientParam",
+					StringUtils.isNotEmpty(client) ? Integer.parseInt(client)
+							: null);
+			mav.addObject("serviceParam", service);
+			mav.addObject("orderParam", order);
+			mav.addObject("orderFieldParam", orderField);
+		}
 		return mav;
+
+	}
+
+	private void setCookie(HttpServletResponse response,
+			SearchParams searchParams) {
+		Gson gson = new Gson();
+		Cookie searchCookie = new Cookie("searchParams",
+				gson.toJson(searchParams));
+		response.addCookie(searchCookie);
+	}
+
+	private SearchParams getCookie(HttpServletRequest request) {
+		Gson gson = new Gson();
+		Cookie[] cookies = request.getCookies();
+		int i = 0;
+		Boolean exit = false;
+		String searchParamsString = null;
+		while (i < cookies.length && exit == false) {
+			if ("searchParams".equals(cookies[i].getName())) {
+				searchParamsString = cookies[i].getValue();
+				exit = true;
+			}
+			i++;
+		}
+		if (exit) {
+			SearchParams searchParams = gson.fromJson(searchParamsString,
+					SearchParams.class);
+			return searchParams;
+		}
+		return null;
 
 	}
 
