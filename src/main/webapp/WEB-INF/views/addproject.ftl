@@ -1,73 +1,39 @@
-<!--
-<html>
-	<body>
-		
-			<form action="/elefante/app/project/addproject"  method="POST" accept-charset="UTF-8">
-				name: <input type="text" name="name"><br>
-				reference_number: <input type="text" name="referenceNumber"><br>
-				responsable:
-				<select name="responsable" tabindex="4">
-					<#list users as user>
-						<option value="${user.id}">${user.username}</option>
-					</#list>
-				</select><br>	
-				client: 
-				<select name="client" tabindex="4">
-					<#list clients as client>
-						<option value="${client.id}">${client.name}</option>
-					</#list>
-				</select><br>
-				product:<input type="text" name="product"><br>
-				service:
-				<select name="service" tabindex="4">
-					<#list services as service>
-						<option value="${service}">${service}</option>
-					</#list>
-				</select><br>
-				total:	
-				<input type="text" name="total"><br>
-				state:
-				<select name="state" tabindex="4">
-					<#list states as state>
-						<option value="${state}">${state}</option>
-					</#list>
-				</select><br>
-				description:<input type="text" name="description"><br>		
-				<input type="submit" value="Submit">
-			</form>
-		
-	</body>
-</html>
--->
-
 <#include "header.ftl">
 <@header "none"/>
 <script src="/elefante/js/addproject.js"></script>
 	<!-- end #header -->
 	<div id="page">
 		<div class="principal-form-block form-block">
-			<form action=<#if !project??> "/elefante/app/project/addproject" <#else> "/elefante/app/project/edit" </#if>  method="POST" accept-charset="UTF-8" >
-				<#if project??> <input type="hidden" name="id" value="${project.id}" /></#if>
+			<#if errors??>
+				<div class="error-block">
+					<#list errors as error>
+						${error.message}
+					</#list>
+				</div>
+			</#if>
+			
+			<form action=<#if !edit??> "/elefante/app/project/addproject" <#else> "/elefante/app/project/edit" </#if>  method="POST" accept-charset="UTF-8" >
+				<#if project?? && edit??> <input type="hidden" name="id" value="${project.id}" /></#if>
 				<ul>
 			        <li>
 			        	<label for="name">Cliente:</label>
 			        	<select name="client" id="client">
 				        	<#list clients as client>
-								<option value="${client.id}" <#if project?? && project.client==client.id></#if> >${client.name}</option>
+								<option value="${client.id}" <#if project?? && project.client.id==client.id></#if> >${client.name}</option>
 							</#list>
 			            </select>
 			        </li>
 			        
 			        <li>
 			        	<label for="product">Producto:</label>
-			            <input type="text" size="40" id="product" name="product" <#if project??> value="${project.product}"</#if> />
+			            <input type="text" size="40" id="product" name="product" class="required" <#if project??> value="${project.product}"</#if> />
 			        </li>
 			        
 			        <li>
 			        	<label for="responsable">Responsable:</label>
 			        	<select name="responsable" id="responsable">
 				        	<#list users as user>
-								<option value="${user.id}" <#if project?? && project.responsable==user.id>selected="selected"</#if> >${user.username}</option>
+								<option value="${user.id}" <#if project?? && project.responsable.id==user.id>selected="selected"</#if> >${user.username}</option>
 							</#list>
 			            </select>
 			        </li>
@@ -108,12 +74,12 @@
 											${cost.description}
 										</span>
 										<span class="item-amount">
-											${cost.description}
+											${cost.ammount?c}
 										</span>
 										<span name="delete">
 											<img src="/elefante/images/delete.png"/>
 										</span>
-										<input type="hidden" name="costs" value="${cost.description}-${cost.description}"></input>
+										<input type="hidden" name="costs" value="${cost.description}-${cost.ammount?c}"></input>
 									</div>	
 								</#list>
 							</#if>
@@ -139,12 +105,12 @@
 											${charge.description}
 										</span>
 										<span class="item-amount">
-											${charge.description}
+											${charge.ammount?c}
 										</span>
 										<span name="delete">
 											<img src="/elefante/images/delete.png"/>
 										</span>
-										<input type="hidden" name="charges" value="${charge.description}-${charge.description}"></input>
+										<input type="hidden" name="charges" value="${charge.description}-${charge.ammount?c}"></input>
 									</div>	
 								</#list>
 							</#if>
@@ -157,23 +123,10 @@
 			            <textarea cols="50" rows="5" id="description" name="description" ><#if project??>${project.description}</#if></textarea>
 					</li>
 					
-				
-			        <!--
-			        
-			        <li>
-			        	<label for="tel2">Tel&eacute;fono Secundario:</label>
-			            <input type="text" size="40" id="tel2" name="tel2" <#if client??> value="${client.tel2}"</#if> />
-			        </li>
-			        
-			        <li>
-			        	<label for="description">Descripci&oacute;n:</label>
-			            <textarea cols="50" rows="5" id="description" name="description" ><#if client??>${client.description}</#if></textarea>
-					</li>
-					-->
 				</ul>
 				
 			    <p>
-			        <button type="submit" class="action"><#if !client??>Aceptar<#else>Guardar</#if></button>
+			        <button type="submit" class="action"><#if !edit??>Aceptar<#else>Guardar</#if></button>
 			    </p>
 			    
 			</form>

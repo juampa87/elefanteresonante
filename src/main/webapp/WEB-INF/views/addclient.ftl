@@ -3,8 +3,15 @@
 	<!-- end #header -->
 	<div id="page">
 		<div class="principal-form-block form-block">
-			<form action=<#if !client??> "/elefante/app/client/addclient" <#else> "/elefante/app/client/edit" </#if>  method="POST" accept-charset="UTF-8" >
-				<#if client??> <input type="hidden" name="id" value="${client.id}" /></#if>
+			<#if errors??>
+				<div class="error-block">
+					<#list errors as error>
+						${error.message}
+					</#list>
+				</div>
+			</#if>
+			<form action=<#if !edit??> "/elefante/app/client/addclient" <#else> "/elefante/app/client/edit" </#if>  method="POST" accept-charset="UTF-8" >
+				<#if client?? && edit??> <input type="hidden" name="id" value="${client.id}" /></#if>
 				<ul>
 			        <li>
 			        	<label for="name">Nombre:</label>
@@ -38,7 +45,7 @@
 				</ul>
 				
 			    <p>
-			        <button type="submit" class="action"><#if !client??>Aceptar<#else>Guardar</#if></button>
+			        <button type="submit" class="action"><#if !edit??>Aceptar<#else>Guardar</#if></button>
 			    </p>
 			    
 			</form>

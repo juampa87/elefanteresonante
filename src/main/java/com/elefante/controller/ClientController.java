@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.elefante.domain.Client;
 import com.elefante.exception.BeingUsedException;
+import com.elefante.exception.ValidationException;
 import com.elefante.service.ClientService;
 
 @Controller
@@ -62,7 +63,15 @@ public class ClientController {
 	public ModelAndView saveClient(@ModelAttribute("client") Client client) {
 		ModelAndView mav = new ModelAndView(REDIRECT_TO_CLIENT_LIST_AFTER_POST);
 		logger.debug("Received request to add client");
-		clientService.add(client);
+
+		try {
+			clientService.add(client);
+		} catch (ValidationException e) {
+			logger.debug("Cannot add client. Validation failed!");
+			mav = new ModelAndView("addclient");
+			mav.addObject("errors", e.getErrors());
+			mav.addObject("client", client);
+		}
 		return mav;
 
 	}
@@ -88,6 +97,7 @@ public class ClientController {
 		ModelAndView mav = new ModelAndView("addclient");
 		Client client = this.clientService.getClient(oid);
 		mav.addObject("client", client);
+		mav.addObject("edit", "edit");
 		return mav;
 	}
 
@@ -96,7 +106,15 @@ public class ClientController {
 		logger.debug("Received request to edit client with id "
 				+ client.getId());
 		ModelAndView mav = new ModelAndView(REDIRECT_TO_CLIENT_LIST_AFTER_POST);
-		clientService.edit(client);
+		try {
+			clientService.edit(client);
+		} catch (ValidationException e) {
+			logger.debug("Cannot edit user. Validation failed!");
+			mav = new ModelAndView("addclient");
+			mav.addObject("errors", e.getErrors());
+			mav.addObject("client", client);
+			mav.addObject("edit", "edit");
+		}
 		return mav;
 	}
 

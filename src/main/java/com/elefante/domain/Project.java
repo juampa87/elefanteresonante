@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,11 +13,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.IndexColumn;
 
 import com.elefante.enums.ServiceType;
 import com.elefante.enums.StateType;
@@ -63,16 +65,14 @@ public class Project implements Serializable {
 	@Column(name = "description", length = 1000)
 	private String description;
 
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "project_OID")
-	@Cascade({ org.hibernate.annotations.CascadeType.ALL,
-			org.hibernate.annotations.CascadeType.DELETE_ORPHAN })
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "charges")
+	@IndexColumn(base = 1, name = "order_index")
 	private List<Item> charges;
 
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "project_OID")
-	@Cascade({ org.hibernate.annotations.CascadeType.ALL,
-			org.hibernate.annotations.CascadeType.DELETE_ORPHAN })
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "costs")
+	@IndexColumn(base = 1, name = "order_index")
 	private List<Item> costs;
 
 	public Integer getId() {

@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.elefante.dao.GenericDao;
 import com.elefante.domain.Item;
 import com.elefante.domain.Project;
+import com.elefante.exception.ValidationException;
 import com.elefante.search.SearchParams;
+import com.elefante.validator.ProjectValidator;
 
 @Transactional(rollbackFor = Exception.class)
 public class ProjectServiceImpl implements ProjectService {
@@ -18,6 +20,7 @@ public class ProjectServiceImpl implements ProjectService {
 	protected static Logger logger = Logger.getLogger("service");
 
 	private GenericDao<Project, Integer> projectDao;
+	private ProjectValidator projectValidator;
 
 	public List<Project> getAll() {
 		logger.debug("Retrieving all projects");
@@ -35,27 +38,12 @@ public class ProjectServiceImpl implements ProjectService {
 		return (Project) this.projectDao.findById(id);
 	}
 
-	public void add(Project project) {
+	public void add(Project project) throws ValidationException {
 		logger.debug("Adding new project");
 		project.setCreationDate(new Date());
 		project.setReferenceNumber(this.projectDao.getRefNumber(new Date()));
-		// // mockeado.. sacar
-		// Item item1 = new Item();
-		// item1.setDescription("un cargo1");
-		// item1.setAmmount(1);
-		// Item item2 = new Item();
-		// item2.setDescription("un cargo2");
-		// item2.setAmmount(2);
-		// Item item3 = new Item();
-		// item3.setDescription("un costo3");
-		// item3.setAmmount(3);
-		// List<Item> cargos = Lists.newArrayList(item1, item2);
-		// List<Item> costos = Lists.newArrayList(item3);
-		// project.setCosts(costos);
-		// project.setCharges(cargos);
-		//
-		// // hasta aca
 		project.setTotal(this.calculateTotal(project));
+		this.projectValidator.validate(project);
 		this.projectDao.save(project);
 	}
 
@@ -66,8 +54,20 @@ public class ProjectServiceImpl implements ProjectService {
 
 	}
 
-	public void edit(Project project) {
-		// TODO Auto-generated method stub
+	public void edit(Project project) throws ValidationException {
+		logger.debug("Editing project with oid: " + project.getId());
+		Project oldProject = this.getProject(project.getId());
+		oldProject.setCharges(project.getCharges());
+		oldProject.setClient(project.getClient());
+		oldProject.setCosts(project.getCosts());
+		oldProject.setDescription(project.getDescription());
+		oldProject.setProduct(project.getProduct());
+		oldProject.setResponsable(project.getResponsable());
+		oldProject.setService(project.getService());
+		oldProject.setState(project.getState());
+		oldProject.setTotal(this.calculateTotal(project));
+		this.projectValidator.validate(oldProject);
+		this.projectDao.update(oldProject);
 
 	}
 
@@ -96,6 +96,11 @@ public class ProjectServiceImpl implements ProjectService {
 	@Required
 	public void setProjectDao(GenericDao<Project, Integer> projectDao) {
 		this.projectDao = projectDao;
+	}
+
+	@Required
+	public void setProjectValidator(ProjectValidator projectValidator) {
+		this.projectValidator = projectValidator;
 	}
 
 }

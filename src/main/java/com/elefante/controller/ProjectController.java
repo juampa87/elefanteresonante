@@ -29,6 +29,7 @@ import com.elefante.enums.Order;
 import com.elefante.enums.OrderFields;
 import com.elefante.enums.ServiceType;
 import com.elefante.enums.StateType;
+import com.elefante.exception.ValidationException;
 import com.elefante.search.SearchParams;
 import com.elefante.service.ClientService;
 import com.elefante.service.ProjectService;
@@ -95,7 +96,18 @@ public class ProjectController {
 	public ModelAndView saveProject(@ModelAttribute("project") Project project) {
 		ModelAndView mav = new ModelAndView(REDIRECT_TO_PROJECT_LIST_AFTER_POST);
 		logger.debug("Received request to add project");
-		projectService.add(project);
+		try {
+			projectService.add(project);
+		} catch (ValidationException e) {
+			logger.debug("Cannot add project. Validation failed!");
+			mav = new ModelAndView("addproject");
+			mav.addObject("errors", e.getErrors());
+			mav.addObject("users", this.userService.getAll());
+			mav.addObject("clients", this.clientService.getAll());
+			mav.addObject("services", ServiceType.values());
+			mav.addObject("states", StateType.values());
+			mav.addObject("project", project);
+		}
 		return mav;
 
 	}
@@ -108,6 +120,41 @@ public class ProjectController {
 		projectService.delete(oid);
 		return mav;
 
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView editProject(
+			@RequestParam(value = "oid", required = true) Integer oid) {
+		ModelAndView mav = new ModelAndView("addproject");
+		Project project = this.projectService.getProject(oid);
+		mav.addObject("users", this.userService.getAll());
+		mav.addObject("clients", this.clientService.getAll());
+		mav.addObject("services", ServiceType.values());
+		mav.addObject("states", StateType.values());
+		mav.addObject("project", project);
+		mav.addObject("edit", "edit");
+		return mav;
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	public ModelAndView editProject(@ModelAttribute("project") Project project) {
+		logger.debug("Received request to edit project with id "
+				+ project.getId());
+		ModelAndView mav = new ModelAndView(REDIRECT_TO_PROJECT_LIST_AFTER_POST);
+		try {
+			this.projectService.edit(project);
+		} catch (ValidationException e) {
+			logger.debug("Cannot edit project. Validation failed!");
+			mav = new ModelAndView("addproject");
+			mav.addObject("errors", e.getErrors());
+			mav.addObject("users", this.userService.getAll());
+			mav.addObject("clients", this.clientService.getAll());
+			mav.addObject("services", ServiceType.values());
+			mav.addObject("states", StateType.values());
+			mav.addObject("project", project);
+			mav.addObject("edit", "edit");
+		}
+		return mav;
 	}
 
 	@RequestMapping(value = "/projects")

@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.elefante.dao.GenericDao;
 import com.elefante.domain.Client;
 import com.elefante.exception.BeingUsedException;
+import com.elefante.exception.ValidationException;
+import com.elefante.validator.ClientValidator;
 
 @Transactional(rollbackFor = Exception.class)
 public class ClientServiceImpl implements ClientService {
@@ -16,6 +18,7 @@ public class ClientServiceImpl implements ClientService {
 	protected static Logger logger = Logger.getLogger("service");
 
 	private GenericDao<Client, Integer> clientDao;
+	private ClientValidator clientValidator;
 
 	public List<Client> getAll() {
 		logger.debug("Retrieving all clients");
@@ -33,8 +36,9 @@ public class ClientServiceImpl implements ClientService {
 		return (Client) this.clientDao.findById(id);
 	}
 
-	public void add(Client client) {
+	public void add(Client client) throws ValidationException {
 		logger.debug("Adding new client");
+		this.clientValidator.validate(client);
 		this.clientDao.save(client);
 	}
 
@@ -49,14 +53,20 @@ public class ClientServiceImpl implements ClientService {
 		}
 	}
 
-	public void edit(Client client) {
+	public void edit(Client client) throws ValidationException {
 		logger.debug("Editing client: " + client.getId());
+		this.clientValidator.validate(client);
 		this.clientDao.update(client);
 	}
 
 	@Required
 	public void setClientDao(GenericDao<Client, Integer> clientDao) {
 		this.clientDao = clientDao;
+	}
+
+	@Required
+	public void setClientValidator(ClientValidator clientValidator) {
+		this.clientValidator = clientValidator;
 	}
 
 }

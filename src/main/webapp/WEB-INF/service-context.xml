@@ -17,11 +17,12 @@
 	
 	<bean class="com.elefante.service.ClientServiceImpl" id="clientService">
 		<property name="clientDao" ref="clientDao" />
+		<property name="clientValidator" ref="clientValidator" />
 	</bean>
 	
 	<bean class="com.elefante.service.ProjectServiceImpl" id="projectService">
 		<property name="projectDao" ref="projectDao" />
-		
+		<property name="projectValidator" ref="projectValidator" />
 	</bean>
 	
 </beans>

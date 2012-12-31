@@ -1,8 +1,6 @@
 $(document)
 		.ready(
 				function() {
-					
-					
 					$('#costs-block span[name="delete"], #charges-block span[name="delete"] ').live('click', removeItem);
 					$("#add-cost").click(
 									function() {
@@ -16,7 +14,7 @@ $(document)
 											
 					
 										//Hay from y to en el rango
-										if((description && $.trim(description) !="")&&(amount && $.trim(amount) !="")){
+										if((description && $.trim(description) !="")&&(amount && $.trim(amount) !="" && isANumber(amount))){
 											var value = "";
 											value=value.concat(description + "-").concat(amount+ "-");
 											//Ahora armamos lo que se ve en la pantalla					
@@ -41,7 +39,7 @@ $(document)
 									
 			
 								//Hay from y to en el rango
-								if((description && $.trim(description) !="")&&(amount && $.trim(amount) !="")){
+								if((description && $.trim(description) !="")&&(amount && $.trim(amount) !=""&& isANumber(amount))){
 									var value = "";
 									value=value.concat(description + "-").concat(amount+ "-");
 									//Ahora armamos lo que se ve en la pantalla					
@@ -58,5 +56,9 @@ $(document)
 						var me = $(this),
 						el = me.parents('div[name="item"]');
 						el.remove();
+					}
+					
+					function isANumber(number){
+						return (Math.floor(number) == number && $.isNumeric(number));
 					}
 				});

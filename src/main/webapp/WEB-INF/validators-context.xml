@@ -5,8 +5,10 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
 
-	<bean class="com.elefante.validator.UserValidator" id="userValidator">
+	<bean class="com.elefante.validator.UserValidator" id="userValidator"></bean>
+	
+	<bean class="com.elefante.validator.ClientValidator" id="clientValidator"></bean>
 		
-	</bean>
+	<bean class="com.elefante.validator.ProjectValidator" id="projectValidator"></bean>
 	
 </beans>
