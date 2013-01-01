@@ -13,6 +13,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.elefante.domain.User;
+import com.elefante.exception.BeingUsedException;
 import com.elefante.exception.ValidationException;
 import com.elefante.service.UserService;
 
@@ -26,7 +27,8 @@ public class UserController {
 	private UserService userService;
 
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
-	public ModelAndView getUsers() {
+	public ModelAndView getUsers(
+			@RequestParam(value = "error", required = false) String error) {
 
 		ModelAndView mav = new ModelAndView("userspage");
 		logger.debug("Received request to show all users");
@@ -34,7 +36,7 @@ public class UserController {
 		List<User> users = userService.getAll();
 
 		mav.addObject("users", users);
-
+		mav.addObject("error", error);
 		return mav;
 	}
 
@@ -59,7 +61,7 @@ public class UserController {
 	@RequestMapping(value = "/adduser", method = RequestMethod.POST)
 	public ModelAndView saveUser(
 			@RequestParam(value = "username", required = false) String username,
-			@RequestParam(value = "photo", required = true) CommonsMultipartFile photo) {
+			@RequestParam(value = "photo", required = false) CommonsMultipartFile photo) {
 		ModelAndView mav = new ModelAndView(REDIRECT_TO_USER_LIST_AFTER_POST);
 		logger.debug("Received request to add user");
 		User user = new User();
@@ -67,7 +69,10 @@ public class UserController {
 		try {
 			userService.add(user, photo);
 		} catch (ValidationException e) {
+			logger.debug("Cannot add user. Validation failed!");
+			mav = new ModelAndView("adduser");
 			mav.addObject("errors", e.getErrors());
+			mav.addObject("user", user);
 		}
 		return mav;
 
@@ -78,7 +83,12 @@ public class UserController {
 			@RequestParam(value = "oid", required = true) Integer oid) {
 		ModelAndView mav = new ModelAndView(REDIRECT_TO_USER_LIST_AFTER_POST);
 		logger.debug("Received request to delete user with id " + oid);
-		userService.delete(oid);
+		try {
+			userService.delete(oid);
+		} catch (BeingUsedException e) {
+			logger.debug("Exception thrown, maybe it's because user is being used");
+			mav.addObject("error", "beingUsed");
+		}
 		return mav;
 
 	}

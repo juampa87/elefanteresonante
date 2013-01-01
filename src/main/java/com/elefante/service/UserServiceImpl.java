@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.elefante.dao.GenericDao;
 import com.elefante.domain.User;
+import com.elefante.exception.BeingUsedException;
 import com.elefante.exception.ValidationException;
 import com.elefante.validator.UserValidator;
 
@@ -41,29 +42,37 @@ public class UserServiceImpl implements UserService {
 	public void add(User user, MultipartFile photo) throws ValidationException {
 		logger.debug("Adding new user");
 
-		try {
-			this.userValidator.validate(user);
-			String originalName = photo.getOriginalFilename();
-			String fileExtension = originalName.substring(
-					originalName.length() - 4, originalName.length());
-			String fileName = user.getUsername() + fileExtension;
-			user.setPhoto(fileName);
-			this.userDao.save(user);
-			this.filesService.savePhoto(photo, fileName);
-		} catch (IOException e) {
-			logger.error("Error saving logo ", e);
-		}
+		// try {
+		this.userValidator.validate(user);
+		user.setPhoto("noImplementado");
+		// String originalName = photo.getOriginalFilename();
+		// String fileExtension = originalName.substring(
+		// originalName.length() - 4, originalName.length());
+		// String fileName = user.getUsername() + fileExtension;
+		// user.setPhoto(fileName);
+		this.userDao.save(user);
+		// this.filesService.savePhoto(photo, fileName);
+		// }
+		// catch (IOException e) {
+		// logger.error("Error saving logo ", e);
+		// }
 	}
 
-	public void delete(Integer id) {
+	public void delete(Integer id) throws BeingUsedException {
 		logger.debug("Deleting existing User");
 		User user = this.getUser(id);
-		try {
-			this.userDao.delete(user);
-			this.filesService.deletePhoto(user.getPhoto());
-		} catch (IOException e) {
-			logger.error("Error deleting logo ", e);
+		if (this.userDao.canBeDeleted(id)) {
+			try {
+				this.userDao.delete(user);
+				this.filesService.deletePhoto(user.getPhoto());
+			} catch (IOException e) {
+				logger.error("Error deleting logo ", e);
+			}
+		} else {
+			logger.debug("cannot delete client because it is being used");
+			throw new BeingUsedException();
 		}
+
 	}
 
 	public void edit(User user) {

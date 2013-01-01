@@ -255,20 +255,22 @@ public class ProjectController {
 	private SearchParams getCookie(HttpServletRequest request) {
 		Gson gson = new Gson();
 		Cookie[] cookies = request.getCookies();
-		int i = 0;
-		Boolean exit = false;
-		String searchParamsString = null;
-		while (i < cookies.length && exit == false) {
-			if ("searchParams".equals(cookies[i].getName())) {
-				searchParamsString = cookies[i].getValue();
-				exit = true;
+		if (cookies != null) {
+			int i = 0;
+			Boolean exit = false;
+			String searchParamsString = null;
+			while (i < cookies.length && exit == false) {
+				if ("searchParams".equals(cookies[i].getName())) {
+					searchParamsString = cookies[i].getValue();
+					exit = true;
+				}
+				i++;
 			}
-			i++;
-		}
-		if (exit) {
-			SearchParams searchParams = gson.fromJson(searchParamsString,
-					SearchParams.class);
-			return searchParams;
+			if (exit) {
+				SearchParams searchParams = gson.fromJson(searchParamsString,
+						SearchParams.class);
+				return searchParams;
+			}
 		}
 		return null;
 
