@@ -10,7 +10,7 @@
 					</#list>
 				</div>
 			</#if>
-			<form action="/elefante/app/user/adduser"   method="POST" accept-charset="UTF-8" >
+			<form action="/elefante/user/adduser"   method="POST" accept-charset="UTF-8" >
 				<ul>
 			        <li>
 			        	<label for="name">Nombre de usuario:</label>

@@ -11,7 +11,7 @@ function remove(){
         modal: true,
         buttons: {
             "Borrar": function() {
-            	var s = '<form action="/elefante/app/user/delete" method="POST">'; 
+            	var s = '<form action="/elefante/user/delete" method="POST">'; 
             		s += '<input type="hidden" name="oid" value="' 
             	        + clientId 
             	        + '" /> </form>'; 

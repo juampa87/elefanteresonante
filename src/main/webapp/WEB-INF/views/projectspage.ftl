@@ -10,7 +10,7 @@
 				</div>
 			</#if>
 			<div>
-				<a class="red-button" href="/elefante/app/project/addproject">Nuevo Proyecto</a>
+				<a class="red-button" href="/elefante/project/addproject">Nuevo Proyecto</a>
 			</div>
 			<table id="box-table-a">
 			    <thead>
@@ -42,7 +42,7 @@
 				            <td name="actions">
 				            	<span name="edit"><img src="/elefante/images/edit.png"/></span>
 				            	<span name="delete"><img src="/elefante/images/delete.png"/></span>
-				            	<span name="add"><img src="/elefante/images/add.png"/></span>
+				            	<#--<span name="add"><img src="/elefante/images/add.png"/></span>-->
 				            	<span id="dialog-delete" class="hide">Borrar projecto?</span>
 				            </td>
 				        </tr>
@@ -50,7 +50,7 @@
 			    </tbody>
 			</table> 
 			<div>
-				<form class="search-block form-block" action="/elefante/app/project/projects">
+				<form class="search-block form-block" action="/elefante/project/projects">
 					<span>
 						<select name="state" tabindex="4">
 							<option value="">Todos</option>

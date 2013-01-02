@@ -22,7 +22,7 @@ import com.elefante.service.UserService;
 public class UserController {
 
 	protected static Logger logger = Logger.getLogger(UserController.class);
-	private static final String REDIRECT_TO_USER_LIST_AFTER_POST = "redirect:/app/user/users";
+	private static final String REDIRECT_TO_USER_LIST_AFTER_POST = "redirect:/user/users";
 
 	private UserService userService;
 

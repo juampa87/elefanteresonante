@@ -12,7 +12,7 @@ function remove(){
         modal: true,
         buttons: {
             "Borrar": function() {
-            	var s = '<form action="/elefante/app/project/delete" method="POST">'; 
+            	var s = '<form action="/elefante/project/delete" method="POST">'; 
             		s += '<input type="hidden" name="oid" value="' 
             	        + projectId 
             	        + '" /> </form>'; 
@@ -30,7 +30,7 @@ function remove(){
 function edit(){
 	var tr = $(this).parents('tr');
 	var projectId = tr.find('td.project-id').text();
-	var s = '<form action="/elefante/app/project/edit" method="GET">'; 
+	var s = '<form action="/elefante/project/edit" method="GET">'; 
 	s += '<input type="hidden" name="oid" value="' 
         + projectId 
         + '" /> </form>'; 

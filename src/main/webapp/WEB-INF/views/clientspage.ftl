@@ -10,7 +10,7 @@
 				</div>
 			</#if>
 			<div>
-				<a class="red-button" href="/elefante/app/client/addclient">Nuevo Cliente</a>
+				<a class="red-button" href="/elefante/client/addclient">Nuevo Cliente</a>
 			</div>
 			<table id="box-table-a">
 			    <thead>

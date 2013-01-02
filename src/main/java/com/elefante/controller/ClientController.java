@@ -22,7 +22,7 @@ import com.elefante.service.ClientService;
 public class ClientController {
 
 	protected static Logger logger = Logger.getLogger(ClientController.class);
-	private static final String REDIRECT_TO_CLIENT_LIST_AFTER_POST = "redirect:/app/client/clients";
+	private static final String REDIRECT_TO_CLIENT_LIST_AFTER_POST = "redirect:/client/clients";
 
 	private ClientService clientService;
 

@@ -45,7 +45,7 @@ import com.google.gson.Gson;
 public class ProjectController {
 
 	protected static Logger logger = Logger.getLogger(ProjectController.class);
-	private static final String REDIRECT_TO_PROJECT_LIST_AFTER_POST = "redirect:/app/project/projects";
+	private static final String REDIRECT_TO_PROJECT_LIST_AFTER_POST = "redirect:/project/projects";
 
 	private ProjectService projectService;
 	private UserService userService;

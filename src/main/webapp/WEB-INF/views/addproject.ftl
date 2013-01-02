@@ -7,14 +7,20 @@
 			<#if errors??>
 				<div class="error-block">
 					<#list errors as error>
-						${error.message}
+						${error.message} <br/>
 					</#list>
 				</div>
 			</#if>
 			
-			<form action=<#if !edit??> "/elefante/app/project/addproject" <#else> "/elefante/app/project/edit" </#if>  method="POST" accept-charset="UTF-8" >
+			<form action=<#if !edit??> "/elefante/project/addproject" <#else> "/elefante/project/edit" </#if>  method="POST" accept-charset="UTF-8" >
 				<#if project?? && edit??> <input type="hidden" name="id" value="${project.id}" /></#if>
 				<ul>
+					<#if project?? && project.referenceNumber??>
+						<li>
+				        	<label for="refNumber">N Ref:</label>
+				            <input type="text" size="40" id="refNumber" value="${project.referenceNumber}"  readonly="readonly" />
+				        </li>
+			        </#if>
 			        <li>
 			        	<label for="name">Cliente:</label>
 			        	<select name="client" id="client">

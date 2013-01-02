@@ -6,11 +6,11 @@
 			<#if errors??>
 				<div class="error-block">
 					<#list errors as error>
-						${error.message}
+						${error.message} <br/>
 					</#list>
 				</div>
 			</#if>
-			<form action=<#if !edit??> "/elefante/app/client/addclient" <#else> "/elefante/app/client/edit" </#if>  method="POST" accept-charset="UTF-8" >
+			<form action=<#if !edit??> "/elefante/client/addclient" <#else> "/elefante/client/edit" </#if>  method="POST" accept-charset="UTF-8" >
 				<#if client?? && edit??> <input type="hidden" name="id" value="${client.id}" /></#if>
 				<ul>
 			        <li>

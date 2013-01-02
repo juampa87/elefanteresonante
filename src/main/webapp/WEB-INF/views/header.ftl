@@ -7,7 +7,7 @@
 	<meta name="keywords" content="" />
 	<meta name="description" content="" />
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<title>BlackPolish by FCT</title>
+	<title>Elefante</title>
 	<link href='http://fonts.googleapis.com/css?family=Oswald:400,300' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Abel|Satisfy' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="/elefante/css/style.css"/>
@@ -24,9 +24,9 @@
 				</div>
 				<div id="menu">
 					<ul>
-						<li <#if selected=="projects">class="current_page_item"</#if>><a href="/elefante/app/project/projects?state=EN_PROCESO&responsable=&client=&service=&orderField=DATE&order=ASC">Proyectos </a></li>
-						<li <#if selected=="users">class="current_page_item"</#if>><a href="/elefante/app/user/users">Usuarios </a></li>
-						<li <#if selected=="clients">class="current_page_item"</#if>><a href="/elefante/app/client/clients">Clientes </a></li>
+						<li <#if selected=="projects">class="current_page_item"</#if>><a href="/elefante/project/projects?state=EN_PROCESO&responsable=&client=&service=&orderField=DATE&order=ASC">Proyectos </a></li>
+						<li <#if selected=="users">class="current_page_item"</#if>><a href="/elefante/user/users">Usuarios </a></li>
+						<li <#if selected=="clients">class="current_page_item"</#if>><a href="/elefante/client/clients">Clientes </a></li>
 					</ul>
 				</div>
 			</div>
