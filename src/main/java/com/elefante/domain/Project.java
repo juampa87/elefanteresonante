@@ -51,6 +51,9 @@ public class Project implements Serializable {
 	@Column(name = "product", length = 100, nullable = false)
 	private String product;
 
+	@Column(name = "bill_number", length = 100, nullable = false)
+	private String billNumber;
+
 	@Column(name = "service", length = 20, nullable = false)
 	@Enumerated(EnumType.STRING)
 	private ServiceType service;
@@ -97,6 +100,14 @@ public class Project implements Serializable {
 
 	public String getProduct() {
 		return product;
+	}
+
+	public String getBillNumber() {
+		return billNumber;
+	}
+
+	public void setBillNumber(String billNumber) {
+		this.billNumber = billNumber;
 	}
 
 	public ServiceType getService() {

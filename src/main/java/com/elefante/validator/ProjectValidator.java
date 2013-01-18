@@ -50,6 +50,11 @@ public class ProjectValidator implements Validator<Project> {
 			errors.add(new ValidationError(
 					"El responsable no puede estar vacio"));
 		}
+		if (object.getBillNumber() != null
+				&& object.getBillNumber().length() > 100) {
+			errors.add(new ValidationError(
+					"El numero de factura debe ser menor a 100 caracteres"));
+		}
 
 		if (errors.size() != 0) {
 			throw new ValidationException(errors);

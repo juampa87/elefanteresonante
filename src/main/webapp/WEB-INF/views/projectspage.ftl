@@ -19,6 +19,7 @@
 			            <th scope="col">N.Ref</th>
 				        <th scope="col">Creaci&oacute;n</th>
 			            <th scope="col">Responsable</th>
+			            <th scope="col">N.Fact</th>
 			            <th scope="col">Cliente</th>
 			            <th scope="col">Producto</th>
 			            <th scope="col">Servicio</th>
@@ -31,11 +32,12 @@
 					<#list projects as project>
 				    	<tr>
 				        	<td class="project-id hide">${project.id}</td>
-				            <td>${project.referenceNumber}</td>
+				            <td style="width:55px">${project.referenceNumber}</td>
 				            <td>${project.creationDate?string("dd-MM-yyyy")}</td>
 				            <td>${project.responsable.username}</td>
+				            <td style="max-width: 200px;word-wrap: break-word;"><#if project.billNumber??>${project.billNumber}<#else>-</#if></td>
 				            <td>${project.client.name}</td>
-				            <td>${project.product}</td>
+				            <td "max-width: 200px;word-wrap: break-word;">${project.product}</td>
 				            <td>${project.service.toString()}</td>
 				            <td>${project.total}</td>
 				            <td class="${project.state.toString()}" >${project.state.toString()}</td>

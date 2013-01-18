@@ -63,6 +63,7 @@ public class ProjectServiceImpl implements ProjectService {
 		oldProject.setDescription(project.getDescription());
 		oldProject.setProduct(project.getProduct());
 		oldProject.setResponsable(project.getResponsable());
+		oldProject.setBillNumber(project.getBillNumber());
 		oldProject.setService(project.getService());
 		oldProject.setState(project.getState());
 		oldProject.setTotal(this.calculateTotal(project));
@@ -77,19 +78,13 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	private Integer calculateTotal(Project project) {
-		Integer chargesCounter = 0;
 		Integer costsCounter = 0;
-		if (project.getCharges() != null) {
-			for (Item item : project.getCharges()) {
-				chargesCounter += item.getAmmount();
-			}
-		}
 		if (project.getCosts() != null) {
 			for (Item item : project.getCosts()) {
 				costsCounter += item.getAmmount();
 			}
 		}
-		return chargesCounter - costsCounter;
+		return costsCounter;
 
 	}
 

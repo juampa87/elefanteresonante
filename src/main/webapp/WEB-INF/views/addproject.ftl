@@ -25,7 +25,7 @@
 			        	<label for="name">Cliente:</label>
 			        	<select name="client" id="client">
 				        	<#list clients as client>
-								<option value="${client.id}" <#if project?? && project.client.id==client.id></#if> >${client.name}</option>
+								<option value="${client.id}" <#if project?? && project.client.id==client.id>selected="selected"</#if> >${client.name}</option>
 							</#list>
 			            </select>
 			        </li>
@@ -33,6 +33,11 @@
 			        <li>
 			        	<label for="product">Producto:</label>
 			            <input type="text" size="40" id="product" name="product" class="required" <#if project??> value="${project.product}"</#if> />
+			        </li>
+			        
+			        <li>
+			        	<label for="billNumber">N Factura:</label>
+			            <input type="text" size="40" id="billNumber" name="billNumber" <#if project?? && project.billNumber??> value="${project.billNumber}"</#if> />
 			        </li>
 			        
 			        <li>
@@ -62,7 +67,7 @@
 			        </li>
 			        
 			        <li>
-			        	<label for="costs">Costos:</label>
+			        	<label for="costs">Servicios:</label>
 			        	<span>
 			            	<input type="text" size="30" id="cost-description" />
 						</span>

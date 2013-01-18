@@ -1,0 +1,1 @@
+ALTER TABLE `elefante`.`project` ADD COLUMN `bill_number` VARCHAR(100) NULL DEFAULT NULL  AFTER `reference_number` ;
