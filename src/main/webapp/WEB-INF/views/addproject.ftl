@@ -1,18 +1,19 @@
 <#include "header.ftl">
 <@header "none"/>
-<script src="/elefante/js/addproject.js"></script>
+<script src="/elefante/js/addproject.1.js"></script>
 	<!-- end #header -->
 	<div id="page">
 		<div class="principal-form-block form-block">
-			<#if errors??>
-				<div class="error-block">
+			<div class="error-block <#if !errors??>hide </#if>">
+				<#if errors??>
 					<#list errors as error>
 						${error.message} <br/>
 					</#list>
-				</div>
-			</#if>
+				</#if>
+			</div>
 			
-			<form action=<#if !edit??> "/elefante/project/addproject" <#else> "/elefante/project/edit" </#if>  method="POST" accept-charset="UTF-8" >
+			
+			<form action=<#if !edit??> "/elefante/project/addproject" <#else> "/elefante/project/edit" </#if>  method="POST" accept-charset="UTF-8" onsubmit="return validateForm()"  >
 				<#if project?? && edit??> <input type="hidden" name="id" value="${project.id}" /></#if>
 				<ul>
 					<#if project?? && project.referenceNumber??>
@@ -67,71 +68,96 @@
 			        </li>
 			        
 			        <li>
-			        	<label for="costs">Servicios:</label>
-			        	<span>
-			            	<input type="text" size="30" id="cost-description" />
-						</span>
-						<span>
-			            	<input type="text" size="10" id="cost-amount" />
-						</span>
-						<span id="add-cost">
-							<img src="/elefante/images/add.png"/>
-						</span>
-						<div id="costs-block">
-							<#if project?? && project.costs??>
-								<#list project.costs as cost>
-									<div name="item">
-										<span class="item-description">
-											${cost.description}
-										</span>
-										<span class="item-amount">
-											${cost.ammount?c}
-										</span>
-										<span name="delete">
-											<img src="/elefante/images/delete.png"/>
-										</span>
-										<input type="hidden" name="costs" value="${cost.description}-${cost.ammount?c}"></input>
-									</div>	
-								</#list>
-							</#if>
+			        	<div id="costs-block">
+			        		<div class="costs-head">
+				        		<span>Servicios</span>
+				        		<span class="amount">Importe</span>
+			        		</div>
+			        		<div id="costs-list">
+								<#assign x = 0>
+				        		<#if project?? && project.costs??>
+					        		<#assign x = project.costs?size>
+					        		<#list project.costs as cost>
+							        	<div name="item">
+								        	<span>
+								            	<input type="text" size="25" name="item-description" value="${cost.description}" />
+											</span>
+											<span>
+								            	<input type="text" size="10" name="item-amount" value="${cost.ammount?c}" />
+											</span>
+											
+										</div>
+									</#list>
+								</#if>
+								
+								<#assign remain = 5-x >
+								
+								<#if remain &gt; 0>
+									<#list 1..remain as i>
+										<div name="item">
+								        	<span>
+								            	<input type="text" size="25" name="item-description" />
+											</span>
+											<span>
+								            	<input type="text" size="10" name="item-amount" />
+											</span>
+										</div>
+									</#list>  
+								</#if>
+							</div>
+							<span id="add-cost">
+								<img src="/elefante/images/add.png"/>
+							</span>
+							
 						</div>
-					</li>
-					
-					<li>
-			        	<label for="costs">Cargos:</label>
-			        	<span>
-			            	<input type="text" size="30" id="charge-description" />
-						</span>
-						<span>
-			            	<input type="text" size="10" id="charge-amount" />
-						</span>
-						<span id="add-charge">
-							<img src="/elefante/images/add.png"/>
-						</span>
 						<div id="charges-block">
-							<#if project?? && project.charges??>
-								<#list project.charges as charge>
-									<div name="item">
-										<span class="item-description">
-											${charge.description}
-										</span>
-										<span class="item-amount">
-											${charge.ammount?c}
-										</span>
-										<span name="delete">
-											<img src="/elefante/images/delete.png"/>
-										</span>
-										<input type="hidden" name="charges" value="${charge.description}-${charge.ammount?c}"></input>
-									</div>	
-								</#list>
-							</#if>
+							<div class="charges-head">
+				        		<span>Cargos</span>
+				        		<span class="amount">Importe</span>
+			        		</div>
+							<div id="charges-list">
+								<#assign y = 0>
+				        		<#if project?? && project.charges??>
+					        		<#assign y = project.charges?size>
+					        		<#list project.charges as charge>
+							        	<div name="item">
+								        	<span>
+								            	<input type="text" size="25" name="item-description" value="${charge.description}" />
+											</span>
+											<span>
+								            	<input type="text" size="10" name="item-amount" value="${charge.ammount?c}" />
+											</span>
+											
+										</div>
+									</#list>
+								</#if>
+								
+								<#assign remain2 = 5-y >
+								
+								<#if remain2 &gt; 0>
+									<#list 1..remain2 as j>
+										<div name="item">
+								        	<span>
+								            	<input type="text" size="25" name="item-description" />
+											</span>
+											<span>
+								            	<input type="text" size="10" name="item-amount" />
+											</span>
+										</div>
+									</#list>  
+								</#if>
+							</div>
+							<span id="add-charge">
+								<img src="/elefante/images/add.png"/>
+							</span>
 						</div>
 					</li>
+					<div class="clearThis"></div>		
 					
 					
 					<li>
 			        	<label for="description">Descripci&oacute;n:</label>
-			            <textarea cols="50" rows="5" id="description" name="description" ><#if project??>${project.description}</#if></textarea>
+			            <textarea cols="50" rows="5" id="description" name="description" ><#if project?? && project.description??>${project.description}</#if></textarea>
 					</li>
 					
 				</ul>

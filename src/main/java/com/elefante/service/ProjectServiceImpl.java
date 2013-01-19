@@ -13,6 +13,7 @@ import com.elefante.domain.Project;
 import com.elefante.exception.ValidationException;
 import com.elefante.search.SearchParams;
 import com.elefante.validator.ProjectValidator;
+import com.mysql.jdbc.StringUtils;
 
 @Transactional(rollbackFor = Exception.class)
 public class ProjectServiceImpl implements ProjectService {
@@ -43,6 +44,7 @@ public class ProjectServiceImpl implements ProjectService {
 		project.setCreationDate(new Date());
 		project.setReferenceNumber(this.projectDao.getRefNumber(new Date()));
 		project.setTotal(this.calculateTotal(project));
+		this.notEmpty(project);
 		this.projectValidator.validate(project);
 		this.projectDao.save(project);
 	}
@@ -67,6 +69,7 @@ public class ProjectServiceImpl implements ProjectService {
 		oldProject.setService(project.getService());
 		oldProject.setState(project.getState());
 		oldProject.setTotal(this.calculateTotal(project));
+		this.notEmpty(oldProject);
 		this.projectValidator.validate(oldProject);
 		this.projectDao.update(oldProject);
 
@@ -85,6 +88,16 @@ public class ProjectServiceImpl implements ProjectService {
 			}
 		}
 		return costsCounter;
+
+	}
+
+	private void notEmpty(Project project) {
+		if (StringUtils.isEmptyOrWhitespaceOnly(project.getBillNumber())) {
+			project.setBillNumber(null);
+		}
+		if (StringUtils.isEmptyOrWhitespaceOnly(project.getDescription())) {
+			project.setDescription(null);
+		}
 
 	}
 

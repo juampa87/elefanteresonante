@@ -51,7 +51,7 @@ public class Project implements Serializable {
 	@Column(name = "product", length = 100, nullable = false)
 	private String product;
 
-	@Column(name = "bill_number", length = 100, nullable = false)
+	@Column(name = "bill_number", length = 100)
 	private String billNumber;
 
 	@Column(name = "service", length = 20, nullable = false)
