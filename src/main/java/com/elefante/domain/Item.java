@@ -23,7 +23,7 @@ public class Item implements Serializable {
 	private String description;
 
 	@Column(name = "ammount")
-	private Integer ammount;
+	private Double ammount;
 
 	public Integer getId() {
 		return id;
@@ -33,7 +33,7 @@ public class Item implements Serializable {
 		return description;
 	}
 
-	public Integer getAmmount() {
+	public Double getAmmount() {
 		return ammount;
 	}
 
@@ -45,7 +45,7 @@ public class Item implements Serializable {
 		this.description = description;
 	}
 
-	public void setAmmount(Integer ammount) {
+	public void setAmmount(Double ammount) {
 		this.ammount = ammount;
 	}
 

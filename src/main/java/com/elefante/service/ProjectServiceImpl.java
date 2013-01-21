@@ -80,8 +80,8 @@ public class ProjectServiceImpl implements ProjectService {
 		return this.projectDao.findWithParams(searchParams);
 	}
 
-	private Integer calculateTotal(Project project) {
-		Integer costsCounter = 0;
+	private Double calculateTotal(Project project) {
+		Double costsCounter = 0d;
 		if (project.getCosts() != null) {
 			for (Item item : project.getCosts()) {
 				costsCounter += item.getAmmount();

@@ -39,7 +39,7 @@
 				            <td>${project.client.name}</td>
 				            <td "max-width: 200px;word-wrap: break-word;">${project.product}</td>
 				            <td>${project.service.toString()}</td>
-				            <td>${project.total}</td>
+				            <td>${project.total?string("0.00")}</td>
 				            <td class="${project.state.toString()}" >${project.state.toString()}</td>
 				            <td name="actions">
 				            	<span name="edit"><img src="/elefante/images/edit.png"/></span>

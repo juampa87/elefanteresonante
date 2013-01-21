@@ -13,7 +13,7 @@ public class ItemCustomEditor extends PropertyEditorSupport {
 		String[] parts = StringUtils.split(text, "-");
 		Item item = new Item();
 		item.setDescription(parts[0]);
-		item.setAmmount(Integer.parseInt(parts[1]));
+		item.setAmmount(Double.parseDouble(parts[1]));
 		this.setValue(item);
 	}
 }

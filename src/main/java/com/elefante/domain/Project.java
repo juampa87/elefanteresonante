@@ -59,7 +59,7 @@ public class Project implements Serializable {
 	private ServiceType service;
 
 	@Column(name = "total")
-	private Integer total;
+	private Double total;
 
 	@Column(name = "state", length = 20, nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -114,7 +114,7 @@ public class Project implements Serializable {
 		return service;
 	}
 
-	public Integer getTotal() {
+	public Double getTotal() {
 		return total;
 	}
 
@@ -150,7 +150,7 @@ public class Project implements Serializable {
 		this.service = service;
 	}
 
-	public void setTotal(Integer total) {
+	public void setTotal(Double total) {
 		this.total = total;
 	}
 

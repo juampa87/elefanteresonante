@@ -69,5 +69,6 @@ function addHiddenInputs(items,where){
 }
 
 function isANumber(number){
-	return (Math.floor(number) == number && $.isNumeric(number));
+//	return (Math.floor(number) == number && $.isNumeric(number));
+	return true;
 }
