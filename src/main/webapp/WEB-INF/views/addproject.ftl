@@ -112,7 +112,7 @@
 						</div>
 						<div id="charges-block">
 							<div class="charges-head">
-				        		<span>Cargos</span>
+				        		<span>Gastos</span>
 				        		<span class="amount">Importe</span>
 			        		</div>
 							<div id="charges-list">
