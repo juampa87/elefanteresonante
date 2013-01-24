@@ -1,6 +1,6 @@
 <#include "header.ftl">
 <@header "none"/>
-<script src="/elefante/js/addproject.1.js"></script>
+<script src="/elefante/js/addproject.2.js"></script>
 	<!-- end #header -->
 	<div id="page">
 		<div class="principal-form-block form-block">

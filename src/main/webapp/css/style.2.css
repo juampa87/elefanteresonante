@@ -608,6 +608,11 @@ TABLE
 	color: #272829;
 	border-top: 1px solid transparent;
 }
+
+.table-block{
+	overflow: auto;
+	max-height: 800px;
+}
 /* #box-table-a tr:hover td
 {
 	background: #d0dafd;

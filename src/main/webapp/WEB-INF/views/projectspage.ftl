@@ -3,15 +3,15 @@
 <script src="/elefante/js/projects.js"></script>
 	<!-- end #header -->
 	<div id="page">
-		<div class="table-block">
-			<#if error?? >
-				<div class="error-block">
-								
-				</div>
-			</#if>
-			<div>
-				<a class="red-button" href="/elefante/project/addproject">Nuevo Proyecto</a>
+		<#if error?? >
+			<div class="error-block">
+							
 			</div>
+		</#if>
+		<div>
+			<a class="red-button" href="/elefante/project/addproject">Nuevo Proyecto</a>
+		</div>
+		<div class="table-block">
 			<table id="box-table-a">
 			    <thead>
 			    	<tr>
@@ -41,7 +41,7 @@
 				            <td>${project.service.toString()}</td>
 				            <td>${project.total?string("0.00")}</td>
 				            <td class="${project.state.toString()}" >${project.state.toString()}</td>
-				            <td name="actions">
+				            <td name="actions" style="width:55px">
 				            	<span name="edit"><img src="/elefante/images/edit.png"/></span>
 				            	<span name="delete"><img src="/elefante/images/delete.png"/></span>
 				            	<#--<span name="add"><img src="/elefante/images/add.png"/></span>-->
@@ -51,43 +51,43 @@
 					</#list>
 			    </tbody>
 			</table> 
-			<div>
-				<form class="search-block form-block" action="/elefante/project/projects">
-					<span>
-						<select name="state" tabindex="4">
-							<option value="">Todos</option>
-							<#list states as state>
-								<option value="${state}" <#if stateParam?? && state.toString() == stateParam>selected="selected"</#if>>${state}</option>
-							</#list>
-						</select>
-					</span>
-					<span>
-					<select name="responsable" tabindex="4">
+		</div>
+		<div>
+			<form class="search-block form-block" action="/elefante/project/projects">
+				<span>
+					<select name="state" tabindex="4">
 						<option value="">Todos</option>
-						<#list users as user>
-							<option value="${user.id}" <#if responsableParam?? && user.id == responsableParam>selected="selected"</#if> >${user.username}</option>
+						<#list states as state>
+							<option value="${state}" <#if stateParam?? && state.toString() == stateParam>selected="selected"</#if>>${state}</option>
 						</#list>
 					</select>
-					</span>
-					<span>
-						<select name="client" tabindex="4">
-							<option value="">Todos</option>
-							<#list clients as client>
-								<option value="${client.id}" <#if clientParam?? && client.id == clientParam>selected="selected"</#if>>${client.name}</option>
-							</#list>
-						</select>
-					</span>
-					<span>
-					<select name="service" tabindex="4">
+				</span>
+				<span>
+				<select name="responsable" tabindex="4">
+					<option value="">Todos</option>
+					<#list users as user>
+						<option value="${user.id}" <#if responsableParam?? && user.id == responsableParam>selected="selected"</#if> >${user.username}</option>
+					</#list>
+				</select>
+				</span>
+				<span>
+					<select name="client" tabindex="4">
 						<option value="">Todos</option>
-						<#list services as service>
-							<option value="${service}" <#if serviceParam?? && service == serviceParam>selected="selected"</#if> >${service}</option>
+						<#list clients as client>
+							<option value="${client.id}" <#if clientParam?? && client.id == clientParam>selected="selected"</#if>>${client.name}</option>
 						</#list>
 					</select>
-					</span>
-					<input type="submit"  value="Filtrar"></input>
-				</form>
-			</div>
+				</span>
+				<span>
+				<select name="service" tabindex="4">
+					<option value="">Todos</option>
+					<#list services as service>
+						<option value="${service}" <#if serviceParam?? && service == serviceParam>selected="selected"</#if> >${service}</option>
+					</#list>
+				</select>
+				</span>
+				<input type="submit"  value="Filtrar"></input>
+			</form>
 		</div>
 	</div>
 	
