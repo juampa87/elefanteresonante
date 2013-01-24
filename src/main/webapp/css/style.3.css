@@ -609,10 +609,14 @@ TABLE
 	border-top: 1px solid transparent;
 }
 
-.table-block{
-	overflow: auto;
-	max-height: 800px;
+#filters {
+	position: fixed;
+	bottom: 0px;
+	background-color: #121212;
+	padding-bottom: 24px;
+	width: 100%;
 }
+
 /* #box-table-a tr:hover td
 {
 	background: #d0dafd;

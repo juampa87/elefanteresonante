@@ -10,7 +10,7 @@
 	<title>Elefante</title>
 	<link href='http://fonts.googleapis.com/css?family=Oswald:400,300' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Abel|Satisfy' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="/elefante/css/style.2.css"/>
+	<link rel="stylesheet" href="/elefante/css/style.3.css"/>
 	<link rel="stylesheet" href="/elefante/css/smoothness/jquery-ui-1.9.2.custom.min.css"/>
 	<script src="/elefante/js/jquery-1.8.3.min.js"></script>
 	<script src="/elefante/js/jquery-ui-1.9.2.custom.min.js"></script>

@@ -1,6 +1,4 @@
-<div id="footer">
-	
 </div>
-<!-- end #footer -->
+<!-- end #wrapper -->
 </body>
 </html>

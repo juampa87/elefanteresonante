@@ -52,7 +52,7 @@
 			    </tbody>
 			</table> 
 		</div>
-		<div>
+		<div id="filters">
 			<form class="search-block form-block" action="/elefante/project/projects">
 				<span>
 					<select name="state" tabindex="4">
