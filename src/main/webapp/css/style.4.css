@@ -16,7 +16,7 @@
 body {
 	margin: 0;
 	padding: 0;
-	background: #000000 url(images/img05.jpg) repeat;
+	background: #121212 url(images/img05.jpg) repeat;
 	font-family: 'Abel', sans-serif;
 	font-size: 18px;
 	color: #5B5B5B;
@@ -268,9 +268,6 @@ a:hover {
 	padding: 30px;
 }
 
-.search-block{
-	margin-top:30px;
-}
 
 .form-block .title {
 	padding: 7px 0px 0px 0px;
